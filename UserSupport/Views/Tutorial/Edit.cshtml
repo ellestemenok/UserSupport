@@ -1,0 +1,77 @@
+﻿@model Tutorial
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<style>
+    .form-control {
+        margin-bottom:10px;
+    }
+    .btn {
+        margin-top:10px;
+        align-self:center;
+    }
+</style>
+
+
+<form class="" asp-controller="Tutorial" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label class="col-form-label-lg" asp-for="CoverImage">Обложка руководства:</label>
+        <input class="form-control" asp-for="CoverImage" type="file" />
+    </div>
+    
+    <div>
+        <label class="col-form-label-lg" asp-for="Title">Название руководства:</label>
+        <input class="form-control" asp-for="Title" type="text" value="@Model.Title" />
+    </div>
+    <div>
+        <label class="col-form-label-lg" asp-for="Description">Краткое описание:</label>
+        <input class="form-control" asp-for="Description" type="text" value="@Model.Description" />
+    </div>
+    <div>
+        <textarea id="editor" asp-for="Content">@Model.Content</textarea>
+    </div>
+    
+
+    <script src="~/js/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', '|', 'fontFamily', 'fontSize', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'link', 'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'imageInsert', 'blockQuote', 'insertTable', '|',
+                    'mediaEmbed', 'undo', 'redo', 'alignment', '|',
+                    'highlight', 'code', 'codeBlock', '|',
+                    'subscript', 'superscript', '|',
+                    'horizontalLine', 'specialCharacters', '|',
+                    'textPartLanguage', 'removeFormat'
+                ],
+
+                mediaEmbed: {
+                    previewsInData: true
+                }
+
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    
+    <button class="btn btn-outline-primary" type="submit">Сохранить изменения</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div>Ошибки валидации:</div>
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors))
+    {
+        <div>@error.ErrorMessage</div>
+    }
+}
+

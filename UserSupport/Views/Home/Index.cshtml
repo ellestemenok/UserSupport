@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<style>
+    .jumbotron {
+        padding-top: calc(var(--jumbotron-padding-y) * 2);
+        padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+    }
+</style>
+
+<div class="jumbotron p-3 p-md-5 rounded bg-light">
+    <div class="col-md-6 px-0">
+        <h1 class="display-4 font-italic">User Support</h1>
+        <p class="lead my-3">Поддержка и обучение пользователей сети.</p>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p class="lead my-3">Добро пожаловать, @User.Identity.Name!</p>
+        }
+        else
+        {
+            <p>
+                <a asp-controller="Auth" asp-action="Login" class="btn btn-primary my-3">Войти</a>
+                <a asp-controller="Registration" asp-action="Register" class="btn btn-secondary my-4">Зарегистрироваться</a>
+            </p>
+        }
+    </div>
+</div>

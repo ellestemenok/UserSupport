@@ -1,0 +1,32 @@
+﻿@model Tutorial
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<style>
+    img {
+        max-width:100%;
+        object-fit: cover;
+    }
+
+    .img-thumbnail {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+    }
+    table, tr, td {
+        table-layout: fixed;
+        border-collapse: collapse;
+        border: 2px solid black;
+    }
+</style>
+<body>
+    <img class="img-thumbnail" src="data:image /png;base64,@Model.CoverImage" />
+    <h1>@Model.Title</h1>
+    <h2>@Model.Description</h2>
+    <hr></hr>
+    <main>
+        @Html.Raw(@Model.Content)
+    </main>
+</body>

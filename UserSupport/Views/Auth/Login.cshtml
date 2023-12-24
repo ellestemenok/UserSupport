@@ -1,0 +1,31 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 10px;
+        margin: 0 auto;
+    }
+    .form-control {
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+</style>
+
+<body class="text-center">
+    <h1 class="h1 mb-3 font-weight-normal">Авторизация</h1>
+    <form class="form-signin" asp-action="Authenticate" asp-controller="Auth" method="post">
+        <input asp-for="Username" class="form-control" placeholder="Логин" required autofocus />
+        <input asp-for="Password" class="form-control" placeholder="Пароль" type="password" required autofocus />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </form>
+</body>

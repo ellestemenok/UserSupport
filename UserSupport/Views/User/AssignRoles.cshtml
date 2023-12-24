@@ -1,0 +1,73 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "Назначение ролей";
+}
+
+<style>
+    img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+    }
+</style>
+
+<h2>Учетные записи</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Фото</th>
+            <th>Имя пользователя</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Почта</th>
+            <th>Должность</th>
+            <th>Роль</th>
+            <th>Удалить пользователя</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td><img src="data:image/png;base64,@user.ProfileImage" /></td>
+                <td>@user.Username</td>
+                <td>@user.Name</td>
+                <td>@user.Surname</td>
+                <td>@user.Email</td>
+                <td>@user.Position</td>
+                <td>
+                    <form method="post" action="@Url.Action("UpdateUserRole", "User")" class="d-flex">
+                        <input type="hidden" name="UserId" value="@user.Id" />
+                        <select name="Role" class="form-select me-2">
+                            @switch (user.Role)
+                            {
+                                case "Администратор":
+                                    <option value="Администратор" selected>Администратор</option>
+                                    <option value="Технический писатель">Технический писатель</option>
+                                    <option value="Читатель">Читатель</option>
+                                    break;
+                                case "Технический писатель":
+                                    <option value="Администратор">Администратор</option>
+                                    <option value="Технический писатель" selected>Технический писатель</option>
+                                    <option value="Читатель">Читатель</option>
+                                    break;
+                                default:
+                                    <option value="Администратор">Администратор</option>
+                                    <option value="Технический писатель">Технический писатель</option>
+                                    <option value="Читатель" selected>Читатель</option>
+                                    break;
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-primary me-2">Сохранить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="@Url.Action("DeleteUser", "User", new { id = user.Id, returnUrl = "AssignRoles" })">
+                        <button type="submit" class="btn btn-danger" onsubmit="return confirm('Вы уверены?')">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

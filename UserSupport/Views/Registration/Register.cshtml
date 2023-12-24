@@ -1,0 +1,39 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 10px;
+        margin: 0 auto;
+    }
+
+    .form-control {
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+</style>
+
+<body class="text-center">
+    <h1 class="h1 mb-3 font-weight-normal">Регистрация</h1>
+    <form class="form-signin" asp-action="Register" asp-controller="Registration" method="post" enctype="multipart/form-data">
+        <input asp-for="Username" class="form-control" placeholder="Введите логин" />
+        <input asp-for="Password" class="form-control" placeholder="Введите пароль" type="password" />
+        <input asp-for="Email" class="form-control" placeholder="Email" type="email" />
+        <input asp-for="ProfileImage" class="form-control" placeholder="Изображение профиля" type="file" />
+        <input asp-for="Name" class="form-control" placeholder="Имя" />
+        <input asp-for="Surname" class="form-control" placeholder="Фамилия" />
+        <input asp-for="Position" class="form-control" placeholder="Должность" />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </form>
+</body>

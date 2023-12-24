@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Создание руководства";
+}
+
+<style>
+    .form-control {
+        margin-bottom:10px;
+    }
+    .btn {
+        margin-top:10px;
+        align-self:center;
+    }
+</style>
+
+@model Tutorial
+
+<form class="" asp-controller="Tutorial" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div>
+        <label class="col-form-label-lg" asp-for="CoverImage">Обложка руководства:</label>
+        <input class="form-control" asp-for="CoverImage" type="file" />
+    </div>
+    
+    <div>
+        <label class="col-form-label-lg" asp-for="Title">Название руководства:</label>
+        <input class="form-control" asp-for="Title" type="text" />
+    </div>
+    <div>
+        <label class="col-form-label-lg" asp-for="Description">Краткое описание:</label>
+        <input class="form-control" asp-for="Description" type="text" />
+    </div>
+    <div>
+        <textarea id="editor" asp-for="Content"></textarea>
+    </div>
+    
+
+    <script src="~/js/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', '|', 'fontFamily', 'fontSize', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'link', 'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'imageInsert', 'blockQuote', 'insertTable', '|',
+                    'mediaEmbed', 'undo', 'redo', 'alignment', '|',
+                    'highlight', 'code', 'codeBlock', '|',
+                    'subscript', 'superscript', '|',
+                    'horizontalLine', 'specialCharacters', '|',
+                    'textPartLanguage', 'removeFormat'
+                ],
+
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    editor.model.change(writer => {
+                        const figures = editor.model.document.getRoot().getChildren();
+
+                        for (const figure of figures) {
+                            if (figure.name === 'figure' && figure.hasClass('media')) {
+                                writer.removeClass('media', figure);
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    
+    <button class="btn btn-outline-primary" type="submit">Создать</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div>Ошибки валидации:</div>
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors))
+    {
+        <div>@error.ErrorMessage</div>
+    }
+}

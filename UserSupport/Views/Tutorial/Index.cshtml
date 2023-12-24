@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Tutorial>
+
+@{
+    ViewData["Title"] = "Руководства";
+}
+
+<style>
+    img {
+        height:250px;
+        width: 200px;
+        object-fit: cover;
+    }
+</style>
+
+<h1>Руководства</h1>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+           <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="data:image/png;base64,@item.CoverImage" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-title">@item.Title</p>
+                    <p class="card-text">@item.Description</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="@Url.Action("Detail", "Tutorial", new { tutorialId = item.Id })" class="btn btn-sm btn-outline-secondary">Прочитать</a>
+                        </div>
+                        <small class="text-muted">@item.CreatedAt</small>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        }
+</div>
+</div>
